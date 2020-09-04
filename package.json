@@ -1,0 +1,69 @@
+{
+  "name": "@umk/statistic-server-core",
+  "version": "0.6.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build-package": "tsc",
+    "tq": "ts-node ./src/connection.test.ts",
+    "gen": "ts-node ./src/utils/generator/index.ts",
+    "lint:fix": "eslint ./src/**/*.{js,ts,tsx} --fix",
+    "test": "jest",
+    "statjest": "jest --coverage"
+  },
+  "license": "ISC",
+  "typings": "dist/index.d.ts",
+  "dependencies": {
+    "@umk/statistic-server-database": "^0.0.1",
+    "dataloader": "^2.0.0",
+    "express-graphql": "^0.11.0",
+    "graphql": "^15.3.0",
+    "graphql-subscriptions": "^1.1.0",
+    "reflect-metadata": "^0.1.13",
+    "type-graphql": "^1.0.0-rc.3",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "@types/express-graphql": "^0.9.0",
+    "@types/graphql": "^14.5.0",
+    "@types/jest": "^26.0.7",
+    "@types/node": "^14.0.27",
+    "@types/socket.io": "^2.1.8",
+    "@types/winston": "^2.4.4",
+    "jest": "^26.1.0",
+    "ts-jest": "^26.1.4",
+    "typescript": "^3.9.7"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testMatch": [
+      "<rootDir>/tests/**/*.{spec,test}.{js,jsx,ts,tsx}"
+    ],
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$",
+      "^.+\\.module\\.(css|sass|scss)$"
+    ],
+    "moduleFileExtensions": [
+      "web.js",
+      "js",
+      "web.ts",
+      "ts",
+      "web.tsx",
+      "tsx",
+      "json",
+      "web.jsx",
+      "jsx",
+      "node"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}"
+    ],
+    "globals": {
+      "ts-jest": {
+        "diagnostics": false
+      }
+    }
+  }
+}
