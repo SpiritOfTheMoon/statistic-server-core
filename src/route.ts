@@ -1,6 +1,6 @@
 /* eslint-disable object-curly-newline */
 import "reflect-metadata";
-import { API } from "@umk/statistic-server-database";
+import { API } from "@umk-stat/statistic-server-database";
 import { OptionsData, graphqlHTTP, Options } from "express-graphql";
 import { NonEmptyArray, buildSchemaSync } from "type-graphql";
 import { PubSub } from "graphql-subscriptions";

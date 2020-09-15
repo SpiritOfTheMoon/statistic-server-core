@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { BackendLog } from "../../src/objects//types";
-import { BackendLogsAttributesType } from "@umk/statistic-database/dist/models";
+import { BackendLogsAttributesType } from "@umk-stat/statistic-database/dist/models";
 
 test ("builder UmkBackendQuery", () => {
 

@@ -1,5 +1,5 @@
 import { Field, ObjectType, ID, Ctx, Arg, Args, UseMiddleware } from "type-graphql";
-import { SystemAttributesType } from "@umk/statistic-server-database";
+import { SystemAttributesType } from "@umk-stat/statistic-server-database";
 import { QueryInterval, QueryReportType, ResultType, ResultTypeInterval, BackendLog } from ".";
 import { Context } from "../Context";
 import { Connectionable } from "../genericObjects/Connection";

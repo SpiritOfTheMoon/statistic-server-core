@@ -1,4 +1,4 @@
-import { API } from "@umk/statistic-server-database";
+import { API } from "@umk-stat/statistic-server-database";
 import { Logger } from "winston";
 import Dataloader from "dataloader";
 import { BackendLog } from "./types";

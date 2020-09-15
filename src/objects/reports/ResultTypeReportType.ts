@@ -1,5 +1,5 @@
 import { ObjectType, Field } from "type-graphql";
-import { ResultTypeReportDbType } from "@umk/statistic-server-database/dist/types/ResultTypeReportDbType";
+import { ResultTypeReportDbType } from "@umk-stat/statistic-server-database/dist/types/ResultTypeReportDbType";
 
 @ObjectType({
     simpleResolvers: true,

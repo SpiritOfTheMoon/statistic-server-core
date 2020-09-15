@@ -1,5 +1,5 @@
 import { Field, Float, ObjectType, ID, Ctx, Args, Arg } from "type-graphql";
-import { BackendLogsAttributesType } from "@umk/statistic-server-database";
+import { BackendLogsAttributesType } from "@umk-stat/statistic-server-database";
 import { Node } from "../interface/Node";
 import { QueryReportType, StatisticType } from ".";
 import { Context } from "../Context";
