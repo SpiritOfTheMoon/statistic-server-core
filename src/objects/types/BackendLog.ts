@@ -1,4 +1,6 @@
-import { Field, Float, ObjectType, ID, Ctx, Args, Arg } from "type-graphql";
+import {
+    Field, Float, ObjectType, ID, Ctx, Args, Arg, UseMiddleware,
+} from "type-graphql";
 import { BackendLogsAttributesType } from "@umk-stat/statistic-server-database";
 import { Node } from "../interface/Node";
 import { QueryReportType, StatisticType } from ".";
@@ -11,6 +13,8 @@ import { Connectionable } from "../genericObjects/Connection";
 import { decodeToBase64 } from "../../decode/decodeToBase64";
 import { Edgable } from "../genericObjects/Edge";
 import { BackendLogConnection } from "../connection/BackendLogConnection";
+import { getHashArgs } from "../../functions/getHashArgs";
+import { statisticQueryLoader } from "../../middleware/statisticQueryLoader";
 
 
 @ObjectType({
@@ -157,5 +161,31 @@ export class BackendLog implements Node {
         return statistics;
 
     }
+
+
+    @UseMiddleware(statisticQueryLoader)
+    @Field(() => StatisticType, {
+        nullable: false,
+    })
+    public async statistic(
+
+        @Ctx()
+        context: Context,
+
+    ): Promise<StatisticType> {
+
+
+        context.infoLogger.info(JSON.stringify(context.dataLoadersMap));
+
+        const { id } = this;
+        const type = "statisticQueryLoader";
+        const args = {};
+        const hash = getHashArgs(args);
+        const val = await context.dataLoadersMap.get(type)?.get(hash)?.load(id);
+
+        return val;
+
+    }
+
 }
 

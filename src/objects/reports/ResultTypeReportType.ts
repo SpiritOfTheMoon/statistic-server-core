@@ -9,10 +9,12 @@ export class ResultTypeReportType {
     public static builderFromDb(
         object: ResultTypeReportDbType,
     ): ResultTypeReportType {
+
         return {
             count: object.countResultType,
             resultType: object.resultType, 
         };
+    
     }
 
     @Field({

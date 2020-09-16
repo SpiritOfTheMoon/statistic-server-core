@@ -1,4 +1,6 @@
-import { Field, Int, ObjectType, Float } from "type-graphql";
+import {
+    Field, Int, ObjectType, Float, 
+} from "type-graphql";
 import { Statistic } from "../interface";
 
 @ObjectType({
@@ -15,4 +17,5 @@ export class QueryReportType implements Statistic {
     public count: number;
 
     public average: number;
+
 }

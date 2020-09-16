@@ -14,10 +14,10 @@ export async function nodeQuery(
 
         switch (nameClass) {
 
-            case "System":
-                return systemQuery(context, id);
-            case "BackendLog":
-                return backendLogQuery(context, id);
+        case "System":
+            return systemQuery(context, id);
+        case "BackendLog":
+            return backendLogQuery(context, id);
 
         }
 

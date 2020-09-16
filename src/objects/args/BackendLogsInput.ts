@@ -1,4 +1,6 @@
-import { ArgsType, Field, Float, InputType } from "type-graphql";
+import {
+    ArgsType, Field, Float, InputType, 
+} from "type-graphql";
 
 @InputType()
 export class BackendLogsInput {

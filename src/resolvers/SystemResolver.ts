@@ -14,12 +14,12 @@ export class SystemResolver {
     })
     public async system(
         @Ctx()
-        context: Context,
+            context: Context,
 
         @Arg("id", {
             nullable: false,
         })
-        id: string,
+            id: string,
     ): Promise<System | null> {
 
         return await systemQuery(context, id)
@@ -31,7 +31,7 @@ export class SystemResolver {
     })
     public async systems(
         @Ctx()
-        context: Context,
+            context: Context,
     ): Promise<System[]> {
 
         const systemsDb = await context.databaseApi.queries.findSystems();
@@ -45,18 +45,21 @@ export class SystemResolver {
     })
     public async createSystem(
         @Ctx()
-        context: Context,
+            context: Context,
         @Arg("name", {
             nullable: false,
         })
-        name: string,
+            name: string,
         @Arg("description", {
             nullable: true,
         })
-        description?: string,
+            description?: string,
     ): Promise<System> {
 
-        const systemDb = await context.databaseApi.queries.createSystem({ name, description });
+        const systemDb = await context.databaseApi.queries.createSystem({
+            name,
+            description, 
+        });
         const system = System.builderFromDb(systemDb.get());
         return system;
 

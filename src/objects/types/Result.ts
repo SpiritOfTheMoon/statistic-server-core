@@ -1,4 +1,6 @@
-import { Field, Int, ObjectType, Ctx, UseMiddleware } from "type-graphql";
+import {
+    Field, Int, ObjectType, Ctx, UseMiddleware, 
+} from "type-graphql";
 
 @ObjectType()
 export class Result {

@@ -4,56 +4,61 @@ import DataLoader from "dataloader";
 import { PeriodArgs } from "../objects/args";
 import { Datepart } from "../objects/enum";
 import { QueryReportType, QueryInterval } from "../objects/types";
+import { setLoaderToContext } from "../functions/setLoaderToContext";
 
 export const queryIntervalLoaderInit: MiddlewareFn<Context> = (
     { context, args },
     next,
 ) => {
+    const middlewareType = "queryIntervalLoader";
     const { begin, end, interval } = args as PeriodArgs & {
         interval: Datepart,
     };
-    if (!context.queryIntervalLoader) {
 
-        const batchFn: DataLoader.BatchLoadFn<string, QueryInterval[]> = async (keys: string[]): Promise<QueryInterval[][]> => {
 
-            const queriesDb = await context.databaseApi.queries.findQueryAverageByIntervalsFromPeriod(keys, begin, end ?? new Date(), interval);
-            const ans = keys.map<QueryInterval[]>((key) => {
+    const batchFn: DataLoader.BatchLoadFn<string, QueryInterval[]> = async (keys: string[]): Promise<QueryInterval[][]> => {
 
-                const queryMap = queriesDb
-                    .filter((value) => value.id === key)
-                    .reduce((prev, val) => {
+        const queriesDb = await context.databaseApi.queries.findQueryAverageByIntervalsFromPeriod(keys, begin, end ?? new Date(), interval);
+        const ans = keys.map<QueryInterval[]>((key) => {
 
-                        const dateStr = val.fromDate.toString();
-                        let arr = prev.get(dateStr);
-                        if (typeof arr === "undefined"){
+            const queryMap = queriesDb
+                .filter((value) => value.id === key)
+                .reduce((prev, val) => {
 
-                            arr = [];
-                        }
-                        arr.push({
-                            average: val.averageQuery,
-                            count: val.countQuery,
-                            query: val.query,
-                        });
-                        prev.set(dateStr, arr);
-                        return prev;
+                    const dateStr = val.fromDate.toString();
+                    let arr = prev.get(dateStr);
+                    if (typeof arr === "undefined") {
 
-                    }, new Map<string, QueryReportType[]>());
-                const answer = Array.from(queryMap.entries());
-                const sortedAnswer = answer.sort((a, b) => new Date(a[0]) < new Date(b[0]) ? 1 : -1);
-                return sortedAnswer.map<QueryInterval> ((val) => ({
-                    fromDate: new Date(val[0]),
-                    queries: val[1],
-                }));
-                
+                        arr = [];
 
-            });
-            return ans;
+                    }
+                    arr.push({
+                        average: val.averageQuery,
+                        count: val.countQuery,
+                        query: val.query,
+                    });
+                    prev.set(dateStr, arr);
+                    return prev;
 
-        };
+                }, new Map<string, QueryReportType[]>());
+            const answer = Array.from(queryMap.entries());
+            const sortedAnswer = answer.sort((a, b) => new Date(a[0]) < new Date(b[0]) ? 1 : -1);
+            return sortedAnswer.map<QueryInterval>((val) => ({
+                fromDate: new Date(val[0]),
+                queries: val[1],
+            }));
 
-        context.queryIntervalLoader = new DataLoader<string, QueryInterval[]>(batchFn);
-    }
 
-    return next();
+        });
+        return ans;
+
+    };
+
+    const newLoader = new DataLoader(batchFn);
+
+    setLoaderToContext(args, middlewareType, newLoader, context);
+
+    const nextResult = next();
+    return nextResult;
 
 };

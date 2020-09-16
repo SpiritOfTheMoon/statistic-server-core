@@ -31,9 +31,9 @@ export class BackendLogsResolver {
         @Arg("id", () => String, {
             nullable: false,
         })
-        id: string,
+            id: string,
         @Ctx()
-        context: Context,
+            context: Context,
     ): Promise<BackendLog | null> {
 
         return backendLogQuery(context, id);
@@ -46,9 +46,9 @@ export class BackendLogsResolver {
     public async backendLogsQuery(
 
         @Args(() => BackendLogsArgs)
-        args: BackendLogsArgs,
+            args: BackendLogsArgs,
         @Ctx()
-        context: Context,
+            context: Context,
     ): Promise<BackendLog[]> {
 
         let { period, systemId, date } = args;
@@ -57,11 +57,13 @@ export class BackendLogsResolver {
             date = new Date();
 
         }
-        let fromDate = getDate(period, date);
+        const fromDate = getDate(period, date);
 
         const data = await context.databaseApi.queries.findBackendLogs(fromDate, systemId);
         return data.map((value) => {
+
             return BackendLog.builderFromDb(value.get());
+        
         });
 
     }
@@ -72,25 +74,29 @@ export class BackendLogsResolver {
     })
     public async backendLogsMutation(
         @Ctx()
-        context: Context,
+            context: Context,
         @Arg("args", () => [BackendLogsInput], {
             nullable: false,
         })
-        args: BackendLogsInput[],
+            args: BackendLogsInput[],
 
         @PubSub(Topics.BackendLogs)
-        publish: Publisher<BackendLog>,
+            publish: Publisher<BackendLog>,
 
     ): Promise<BackendLog[]> {
 
         try {
+
             const queryResults = await context.databaseApi.queries.createBackendLogs(args);
             const gettedQueries = queryResults.map((queryResult) => BackendLog.builderFromDb(queryResult.get()));
             gettedQueries.forEach(value => void publish(value));
             context.infoLogger.info(`${JSON.stringify(gettedQueries)}`)
             return gettedQueries;
+        
         } catch (error) {
+
             throw error;
+        
         }
 
 
@@ -99,8 +105,11 @@ export class BackendLogsResolver {
     @Subscription(() => BackendLog, {
         topics: Topics.BackendLogs,
         filter: ({ args, payload }: ResolverFilterData<BackendLog, BackendLogSubscriptionArgs, Context>) => {
+
             if (args.systemId === payload.systemId) {
+
                 return true;
+            
             }
             return false;
 
@@ -108,9 +117,9 @@ export class BackendLogsResolver {
     })
     public async backendLogSubscription(
         @Args(() => BackendLogSubscriptionArgs)
-        __: BackendLogSubscriptionArgs,
+            __: BackendLogSubscriptionArgs,
         @Root()
-        root: BackendLog,
+            root: BackendLog,
 
     ): Promise<BackendLog> {
 

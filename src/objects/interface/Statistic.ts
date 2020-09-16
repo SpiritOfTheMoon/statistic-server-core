@@ -1,4 +1,6 @@
-import { Field, Int, Float, InterfaceType } from "type-graphql";
+import {
+    Field, Int, Float, InterfaceType, 
+} from "type-graphql";
 
 
 @InterfaceType({
@@ -18,5 +20,17 @@ export abstract class Statistic {
         simple: true,
     })
     average: number;
+
+    @Field(() => Float, {
+        nullable: true,
+        simple: true,
+    })
+    deviation?: number;
+
+    @Field(() => Float, {
+        nullable: true,
+        simple: true,
+    })
+    maxValue?: number;
 
 }

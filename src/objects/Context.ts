@@ -1,12 +1,6 @@
 import { API } from "@umk-stat/statistic-server-database";
 import { Logger } from "winston";
-import Dataloader from "dataloader";
-import { BackendLog } from "./types";
-import { Edgable } from "./genericObjects/Edge";
-import { ResultType } from "./types";
-import { ResultTypeInterval } from "./types";
-import { QueryReportType } from "./types";
-import { QueryInterval } from "./types";
+import DataLoader from "dataloader";
 
 export class Context {
 
@@ -16,21 +10,7 @@ export class Context {
 
     readonly errorLogger: Logger;
 
-    public queryIntervalLoader: Dataloader<string, QueryInterval[]>;
-
-    public tableLogsDataLoader: Dataloader<string, Edgable<BackendLog>[]>;
-
-    public countTableLogsDataLoader: Dataloader<string, number>;
-
-    public resultTypeReportLoader: Dataloader<string, ResultType[]>;
-
-    public resultTypeIntervalLoader: Dataloader<string, ResultTypeInterval[]>;
-
-    public queryLoader: Dataloader<string, QueryReportType[]>;
-
-    public queryLogsLoader: Dataloader<string, Edgable<BackendLog>[]>;
-
-    public countQueryLogsLoader: Dataloader<string, number>;
+    public dataLoadersMap: Map<string, Map<string, DataLoader<any, any, any>>> = new Map<string, Map<string, DataLoader<any, any, any>>>();
 
     public readonly graphQLObjectMap: Map<string, string>;
 
@@ -47,4 +27,5 @@ export class Context {
         this.graphQLObjectMap = graphQLObjectMap;
 
     }
+
 }

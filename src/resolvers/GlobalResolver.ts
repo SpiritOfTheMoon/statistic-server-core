@@ -15,12 +15,12 @@ export class GlobalResolver {
     })
     public async node(
         @Ctx()
-        context: Context,
+            context: Context,
 
         @Arg("id", () => ID, {
             nullable: false,
         })
-        id: string,
+            id: string,
     ): Promise<Node | null> {
 
         return nodeQuery(context, id);

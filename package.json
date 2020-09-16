@@ -7,6 +7,7 @@
     "build-package": "tsc",
     "tq": "ts-node ./src/connection.test.ts",
     "gen": "ts-node ./src/utils/generator/index.ts",
+    "build-package:watch": "umk-build --watch",
     "lint:fix": "eslint ./src/**/*.{js,ts,tsx} --fix",
     "test": "jest",
     "statjest": "jest --coverage"

@@ -19,4 +19,5 @@ export class  BackendLogsArgs {
         nullable: true,
     })
     date?: Date;
+
 }

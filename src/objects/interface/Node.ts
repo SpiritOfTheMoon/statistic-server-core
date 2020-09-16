@@ -13,15 +13,17 @@ const NodeResolveType: TypeResolver<System | BackendLog, Context> = (value, cont
 
         switch (nameClass) {
 
-            case "System":
-                return "System";
-            case "BackendLogs":
-                return "BackendLog";
+        case "System":
+            return "System";
+        case "BackendLogs":
+            return "BackendLog";
+        
         }
 
     }
 
     throw new Error("Неправильный id");
+
 };
 
 

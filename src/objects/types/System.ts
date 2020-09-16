@@ -1,6 +1,10 @@
-import { Field, ObjectType, ID, Ctx, Arg, Args, UseMiddleware } from "type-graphql";
+import {
+    Field, ObjectType, ID, Ctx, Arg, Args, UseMiddleware,
+} from "type-graphql";
 import { SystemAttributesType } from "@umk-stat/statistic-server-database";
-import { QueryInterval, QueryReportType, ResultType, ResultTypeInterval, BackendLog } from ".";
+import {
+    QueryInterval, QueryReportType, ResultType, ResultTypeInterval, BackendLog,
+} from ".";
 import { Context } from "../Context";
 import { Connectionable } from "../genericObjects/Connection";
 import { ConnectionArgsOrder } from "../args/ConnectionArgsOrder";
@@ -14,6 +18,7 @@ import { queryLoaderInit } from "../../middleware/queryLoaderInit";
 import { queryIntervalLoaderInit } from "../../middleware/queryIntervalLoaderInit";
 import { Node } from "../interface";
 import { BackendLogConnection } from "../connection/BackendLogConnection";
+import { getHashArgs } from "../../functions/getHashArgs";
 
 
 @ObjectType({
@@ -66,8 +71,12 @@ export class System implements Node {
 
         args.orderField = orderField;
         const { id } = this;
-        const edges = await context.tableLogsDataLoader.load(id);
-        const totalCount = await context.countTableLogsDataLoader.load(id);
+        const edgeType = "tableLogsDataLoader";
+        const countType = "countTableLogsDataLoader";
+        const hash = getHashArgs(args);
+        const edges = await context.dataLoadersMap.get(edgeType)?.get(hash)?.load(id);
+        const totalCount = await context.dataLoadersMap.get(countType)?.get(hash)?.load(id);
+
         const connection = new BackendLogConnection(edges, totalCount, args);
         return connection;
 
@@ -88,7 +97,9 @@ export class System implements Node {
     ): Promise<ResultType[]> {
 
         const { id } = this;
-        const result = await context.resultTypeReportLoader.load(id);
+        const countType = "resultTypeReportLoader";
+        const hash = getHashArgs(args);
+        const result = await context.dataLoadersMap.get(countType)?.get(hash)?.load(id);
         return result;
 
     }
@@ -113,7 +124,10 @@ export class System implements Node {
     ): Promise<ResultTypeInterval[]> {
 
         const { id } = this;
-        const result = await context.resultTypeIntervalLoader.load(id);
+        const countType = "resultTypeIntervalLoader";
+        const args = { ..._args, interval: _interval };
+        const hash = getHashArgs(args);
+        const result = await context.dataLoadersMap.get(countType)?.get(hash)?.load(id);
         return result;
 
     }
@@ -133,7 +147,10 @@ export class System implements Node {
     ): Promise<QueryReportType[]> {
 
         const { id } = this;
-        const result = await context.queryLoader.load(id);
+        const countType = "queryLoader";
+        const args = { ..._args };
+        const hash = getHashArgs(args);
+        const result = await context.dataLoadersMap.get(countType)?.get(hash)?.load(id);
         return result;
 
     }
@@ -159,7 +176,10 @@ export class System implements Node {
     ): Promise<QueryInterval[]> {
 
         const { id } = this;
-        const result = await context.queryIntervalLoader.load(id);
+        const countType = "queryIntervalLoader";
+        const args = { ..._args, interval: _interval };
+        const hash = getHashArgs(args);
+        const result = await context.dataLoadersMap.get(countType)?.get(hash)?.load(id);
         return result;
 
     }

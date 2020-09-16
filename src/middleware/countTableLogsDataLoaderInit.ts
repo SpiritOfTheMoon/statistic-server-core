@@ -1,25 +1,26 @@
 import { MiddlewareFn } from "type-graphql";
 import { Context } from "../objects/Context";
 import DataLoader from "dataloader";
+import { setLoaderToContext } from "../functions/setLoaderToContext";
 
 export const countTableLogsDataLoaderInit: MiddlewareFn<Context> = (
-    { context },
+    { context, args },
     next,
 ) => {
+    const middlewareType = "countTableLogsDataLoader";
 
 
-    if (!context.countTableLogsDataLoader) {
+    const batchFn: DataLoader.BatchLoadFn<string, number> = (keys: string[]): Promise<number[]> => {
 
-        const batchFn: DataLoader.BatchLoadFn<string, number> = (keys: string[]): Promise<number[]> => {
+        const counts = context.databaseApi.queries.countBackendLogs(keys);
+        return counts;
 
-            const counts = context.databaseApi.queries.countBackendLogs(keys);
-            return counts;
+    };
 
-        };
+    const newLoader = new DataLoader(batchFn);
 
-        context.countTableLogsDataLoader = new DataLoader<string, number>(batchFn);
+    setLoaderToContext(args, middlewareType, newLoader, context);
 
-    }
-    return next();
-
+    const nextResult = next();
+    return nextResult;
 };

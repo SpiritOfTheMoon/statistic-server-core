@@ -1,4 +1,6 @@
-import { Field, Int, Float, InterfaceType } from "type-graphql";
+import {
+    Field, Int, Float, InterfaceType, 
+} from "type-graphql";
 
 
 @InterfaceType({
