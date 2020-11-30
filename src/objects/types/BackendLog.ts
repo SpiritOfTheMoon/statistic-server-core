@@ -33,7 +33,6 @@ export class BackendLog implements Node {
         umkBackendQuery.args = object.args;
         umkBackendQuery.query = object.query;
         umkBackendQuery.resultType = object.resultType;
-        umkBackendQuery.result = object.result;
         umkBackendQuery.systemId = object.systemId;
         return umkBackendQuery;
 
@@ -45,11 +44,6 @@ export class BackendLog implements Node {
         nullable: false,
     })
     query: string;
-
-    @Field(() => String, {
-        nullable: false,
-    })
-    result: string;
 
     @Field(() => String, {
         nullable: false,
