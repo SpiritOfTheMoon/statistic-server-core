@@ -14,11 +14,6 @@ export class BackendLogsInput {
         nullable: false,
     })
     query: string;
-    
-    @Field(() => String, {
-        nullable: false,
-    })
-    result: string;
 
     @Field(() => String, {
         nullable: false,
