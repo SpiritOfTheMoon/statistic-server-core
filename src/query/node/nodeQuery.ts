@@ -1,6 +1,7 @@
 import { Context } from "../../objects/Context";
 import { systemQuery } from "../system/systemQuery";
 import { backendLogQuery } from "../backendLog/backendLogQuery";
+import { targetQuery } from "../target/targetQuery";
 import { Node } from "../../objects/interface";
 
 export async function nodeQuery(
@@ -8,7 +9,7 @@ export async function nodeQuery(
     id: string,
 ): Promise<Node | null> {
 
-    const num = id.substring(0, 3);
+    const num = id.substring(0, 4);
     const nameClass = context.graphQLObjectMap.get(num);
     if (typeof nameClass !== "undefined") {
 
@@ -18,6 +19,8 @@ export async function nodeQuery(
             return systemQuery(context, id);
         case "BackendLog":
             return backendLogQuery(context, id);
+        case "Target":
+            return targetQuery(context, id);
 
         }
 

@@ -2,12 +2,14 @@ import {
     Field, InterfaceType, ID, TypeResolver,
 } from "type-graphql";
 import { Context } from "../Context";
-import { System, BackendLog } from "../types";
+import {
+    System, BackendLog, Target,
+} from "../types";
 
-const NodeResolveType: TypeResolver<System | BackendLog, Context> = (value, context) => {
+const NodeResolveType: TypeResolver<System | BackendLog | Target, Context> = (value, context) => {
 
     const { id } = value;
-    const num = id.substring(0, 3);
+    const num = id.substring(0, 4);
     const nameClass = context.graphQLObjectMap.get(num);
     if (typeof nameClass !== "undefined") {
 
@@ -17,7 +19,8 @@ const NodeResolveType: TypeResolver<System | BackendLog, Context> = (value, cont
             return "System";
         case "BackendLogs":
             return "BackendLog";
-        
+        case "Target":
+            return "Target";
         }
 
     }
