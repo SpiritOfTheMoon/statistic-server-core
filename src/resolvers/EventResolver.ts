@@ -3,7 +3,7 @@ import {
 } from "type-graphql";
 import {
     eventQuery, eventsQuery, createEventQuery,
-    updateEventNameQuery, updateEventTargetIDQuery,
+    updateEventQuery,
     deleteEventQuery, deleteEventsQuery,
 } from "../query/event";
 import {Event, Target} from "../objects/types";
@@ -26,9 +26,17 @@ export class EventResolver {
             nullable: false,
         })
             targetID: string,
+        @Arg("viewerID", {
+            nullable: false,
+        })
+            viewerID: string,
+        @Arg("time", {
+            nullable: true,
+        })
+            time: Date,
     ): Promise<Event> {
 
-        return createEventQuery(context, name, targetID);
+        return createEventQuery(context, name, targetID, viewerID, time);
 
     }
 
@@ -64,7 +72,7 @@ export class EventResolver {
     @Mutation(() => Event, {
         nullable: false,
     })
-    public async updateEventName(
+    public async updateEvent(
         @Ctx()
             context: Context,
 
@@ -77,31 +85,21 @@ export class EventResolver {
             nullable: false,
         })
             name: string,
-    ): Promise<Event | null> {
-
-        return updateEventNameQuery(context, id, name);
-
-    }
-
-    @Mutation(() => Event, {
-        nullable: false,
-    })
-    public async updateEventTargetID(
-        @Ctx()
-            context: Context,
-
-        @Arg("id", {
-            nullable: false,
-        })
-            id: string,
-
         @Arg("targetID", {
-            nullable: false,
+            nullable: true,
         })
             targetID: string,
+        @Arg("viewerID", {
+            nullable: true,
+        })
+            viewerID: string,
+        @Arg("time", {
+            nullable: true,
+        })
+            time: Date
     ): Promise<Event | null> {
 
-        return updateEventTargetIDQuery(context, id, targetID);
+        return updateEventQuery(context, id, name, targetID, viewerID, time);
 
     }
 

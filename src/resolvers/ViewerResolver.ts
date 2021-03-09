@@ -3,9 +3,9 @@ import {
 } from "type-graphql";
 import {
     viewerQuery, viewersQuery, createViewerQuery,
-    updateViewerIdentifierQuery, deleteViewerQuery, deleteViewersQuery,
+    updateViewerQuery, deleteViewerQuery, deleteViewersQuery,
 } from "../query/viewer";
-import {Target, Viewer} from "../objects/types";
+import { Viewer } from "../objects/types";
 import { Context } from "../objects";
 
 @Resolver()
@@ -21,9 +21,19 @@ export class ViewerResolver {
             nullable: false,
         })
             identifier: string,
+
+        @Arg("userInfo", {
+            nullable: false,
+        })
+            userInfo: string,
+
+        @Arg("compInfo", {
+            nullable: false,
+        })
+            compInfo: string,
     ): Promise<Viewer> {
 
-        return createViewerQuery(context, identifier);
+        return createViewerQuery(context, identifier, userInfo, compInfo);
 
     }
 
@@ -69,12 +79,22 @@ export class ViewerResolver {
             id: string,
 
         @Arg("identifier", {
-            nullable: false,
+            nullable: true,
         })
             identifier: string,
+
+        @Arg("userInfo", {
+            nullable: true,
+        })
+            userInfo: string,
+
+        @Arg("compInfo", {
+            nullable: true,
+        })
+            compInfo: string,
     ): Promise<Viewer | null> {
 
-        return updateViewerIdentifierQuery(context, id, identifier);
+        return updateViewerQuery(context, id, identifier, userInfo, compInfo);
 
     }
 

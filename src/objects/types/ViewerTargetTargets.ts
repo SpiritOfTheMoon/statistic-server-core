@@ -1,4 +1,4 @@
-import { ViewerTargetTargetsAttributesType } from "@umk-stat/statistic-server-database";
+import { ViewerTargetTargetsAttributes } from "@umk-stat/statistic-server-database";
 import {
     Ctx, Field, ObjectType, UseMiddleware,
 } from "type-graphql";
@@ -16,7 +16,7 @@ import { Viewer } from "./Viewer";
 })
 export class ViewerTargetTargets implements Node {
 
-    public static builderFromDb(object: ViewerTargetTargetsAttributesType): ViewerTargetTargets {
+    public static builderFromDb(object: ViewerTargetTargetsAttributes): ViewerTargetTargets {
 
         const viewerTargetTargets = new ViewerTargetTargets();
         viewerTargetTargets.id = object.id;

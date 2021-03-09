@@ -1,9 +1,9 @@
 import {
     Field, Float, ObjectType, ID, Ctx, Args, Arg, UseMiddleware,
 } from "type-graphql";
-import { BackendLogsAttributesType } from "@umk-stat/statistic-server-database";
+import { BackendLogsAttributes } from "@umk-stat/statistic-server-database";
 import { Node } from "../interface/Node";
-import { QueryReportType, StatisticType } from ".";
+import { QueryReportType, StatisticType } from "./index";
 import { Context } from "../Context";
 import { PeriodArgs } from "../args";
 import { Datepart } from "../enum";
@@ -23,7 +23,7 @@ import { statisticQueryLoader } from "../../middleware/statisticQueryLoader";
 })
 export class BackendLog implements Node {
 
-    public static builderFromDb(object: BackendLogsAttributesType): BackendLog {
+    public static builderFromDb(object: BackendLogsAttributes): BackendLog {
 
         const umkBackendQuery = new BackendLog();
         umkBackendQuery.id = object.id;

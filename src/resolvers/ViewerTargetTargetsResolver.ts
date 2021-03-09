@@ -3,7 +3,7 @@ import {
 } from "type-graphql";
 import {
     viewerTargetTargetsQuery, viewerTargetTargetssQuery, createViewerTargetTargetsQuery,
-    updateViewerTargetTargetsTargetIDQuery, updateViewerTargetTargetsViewerIDQuery,
+    updateViewerTargetTargetsViewerIDQuery,
     deleteViewerTargetTargetsQuery, deleteViewerTargetTargetssQuery,
 } from "../query/viewerTargetTargets";
 import {Target, ViewerTargetTargets} from "../objects/types";
@@ -74,36 +74,23 @@ export class ViewerTargetTargetsResolver {
             id: string,
 
         @Arg("viewerID", {
-            nullable: false,
+            nullable: true,
         })
             viewerID: string,
+
+        @Arg("targetID", {
+            nullable: true,
+        })
+            targetID: string,
     ): Promise<ViewerTargetTargets | null> {
 
-        return updateViewerTargetTargetsViewerIDQuery(context, id, viewerID);
+        return updateViewerTargetTargetsViewerIDQuery(context, id, viewerID, targetID);
 
     }
 
     @Mutation(() => ViewerTargetTargets, {
         nullable: false,
     })
-    public async updateViewerTargetTargetsTargetID(
-        @Ctx()
-            context: Context,
-
-        @Arg("id", {
-            nullable: false,
-        })
-            id: string,
-
-        @Arg("targetID", {
-            nullable: false,
-        })
-            targetID: string,
-    ): Promise<ViewerTargetTargets | null> {
-
-        return updateViewerTargetTargetsTargetIDQuery(context, id, targetID);
-
-    }
 
     @Mutation(() => ViewerTargetTargets, {
         nullable: false,

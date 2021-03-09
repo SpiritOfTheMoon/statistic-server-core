@@ -1,20 +1,19 @@
-import { MiddlewareFn } from "type-graphql";
+import {MiddlewareFn} from "type-graphql";
 import DataLoader from "dataloader";
-import { Context } from "../objects";
-import { setLoaderToContext } from "../functions/setLoaderToContext";
-import { System } from "../objects/types";
-import { systemQuery } from "../query/system/systemQuery";
+import {Context} from "../objects";
+import {setLoaderToContext} from "../functions/setLoaderToContext";
+import {systemQuery} from "../query/system/systemQuery";
+import {System} from "../objects/types";
 
-export const systemSystemTargetTargetsLoaderInit: MiddlewareFn<Context> = (
+export const systemTargetLoaderInit: MiddlewareFn<Context> = (
     { context, args },
     next
 ) => {
 
-    const middlewareType = "systemSystemTargetTargetsLoader";
+    const middlewareType = "systemTargetLoader";
 
     const batchFn: (ids: string[]) => Promise<(System | null)[]> =  async (ids: string[])
         : Promise<(null | System)[]> => {
-
         return await Promise.all(ids.map(id => systemQuery(context, id)));
 
     };

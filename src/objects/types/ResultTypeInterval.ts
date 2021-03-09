@@ -1,5 +1,5 @@
 import { ObjectType, Field } from "type-graphql";
-import { ResultType } from ".";
+import { ResultType } from "./index";
 
 @ObjectType()
 export class ResultTypeInterval {

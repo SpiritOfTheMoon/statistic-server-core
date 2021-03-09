@@ -1,5 +1,5 @@
 import { ObjectType, Field } from "type-graphql";
-import { QueryReportType } from ".";
+import { QueryReportType } from "./index";
 
 @ObjectType()
 export class QueryInterval {

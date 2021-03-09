@@ -3,7 +3,7 @@ import {
 } from "type-graphql";
 import {
     targetQuery, targetsQuery, createTargetQuery,
-    updateTargetNameQuery, deleteTargetQuery, deleteTargetsQuery,
+    updateTargetQuery, deleteTargetQuery, deleteTargetsQuery,
 } from "../query/target";
 import { Target} from "../objects/types";
 import { Context } from "../objects";
@@ -21,9 +21,13 @@ export class TargetResolver {
             nullable: false,
         })
             name: string,
+        @Arg("systemID", {
+            nullable: false,
+        })
+            systemID: string,
     ): Promise<Target> {
 
-        return createTargetQuery(context, name);
+        return createTargetQuery(context, name, systemID);
 
     }
 
@@ -69,12 +73,17 @@ export class TargetResolver {
             id: string,
 
         @Arg("name", {
-            nullable: false,
+            nullable: true,
         })
             name: string,
+
+        @Arg("systemID", {
+            nullable: true,
+        })
+            systemID: string,
     ): Promise<Target | null> {
 
-        return updateTargetNameQuery(context, id, name);
+        return updateTargetQuery(context, id, name, systemID);
 
     }
 

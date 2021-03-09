@@ -7,4 +7,5 @@ export async function deleteEventsQuery(
 
     const eventsDb = await context.databaseApi.queries.deleteEvents();
     return eventsDb.map((eventDb) => Event.builderFromDb(eventDb.get()));
+
 }

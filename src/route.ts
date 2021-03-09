@@ -15,7 +15,6 @@ import { TargetResolver } from "./resolvers/TargetResolver";
 import {ViewerResolver} from "./resolvers/ViewerResolver";
 import {EventResolver} from "./resolvers/EventResolver";
 import {ViewerTargetTargetsResolver} from "./resolvers/ViewerTargetTargetsResolver";
-import {SystemTargetTargetsResolver} from "./resolvers/SystemTargetTargetsResolver";
 
 
 export function getMiddleware(
@@ -35,8 +34,7 @@ export function getMiddleware(
         TargetResolver,
         ViewerResolver,
         EventResolver,
-        ViewerTargetTargetsResolver,
-        SystemTargetTargetsResolver,
+        ViewerTargetTargetsResolver
     ];
 
     const schema = buildSchemaSync({
