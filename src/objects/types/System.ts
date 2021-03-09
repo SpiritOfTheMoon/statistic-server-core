@@ -1,10 +1,10 @@
 import {
     Field, ObjectType, ID, Ctx, Arg, Args, UseMiddleware,
 } from "type-graphql";
-import { SystemAttributesType } from "@umk-stat/statistic-server-database";
+import { SystemAttributes } from "@umk-stat/statistic-server-database";
 import {
     QueryInterval, QueryReportType, ResultType, ResultTypeInterval, BackendLog,
-} from ".";
+} from "./index";
 import { Context } from "../Context";
 import { Connectionable } from "../genericObjects/Connection";
 import { ConnectionArgsOrder } from "../args/ConnectionArgsOrder";
@@ -27,7 +27,7 @@ import { getHashArgs } from "../../functions/getHashArgs";
 })
 export class System implements Node {
 
-    public static builderFromDb(object: SystemAttributesType): System {
+    public static builderFromDb(object: SystemAttributes): System {
 
         const system = new System();
         system.id = object.id;

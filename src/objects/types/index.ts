@@ -8,3 +8,7 @@ export * from "./ResultType";
 export * from "./ResultTypeInterval";
 export * from "./StatisticType";
 export * from "./System";
+export * from "./Target";
+export * from "./Event";
+export * from "./Viewer";
+export * from "./ViewerTargetTargets";

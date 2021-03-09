@@ -8,7 +8,7 @@ import { BackendLog } from "../objects/types";
 import { Context } from "../objects/Context";
 import { BackendLogsArgs } from "../objects/args/BackendLogsArgs";
 import { getDate } from "../functions/getDate";
-import { BackendLogSubscriptionArgs } from "../objects/args/backendLogSubscriptionArgs";
+import { BackendLogSubscriptionArgs } from "../objects/args/BackendLogSubscriptionArgs";
 import { backendLogQuery } from "../query/backendLog/backendLogQuery";
 
 @Resolver()

@@ -11,6 +11,10 @@ import { Context } from "./objects/Context";
 import { BackendLogsResolver } from "./resolvers/BackendLogsResolver";
 import { SystemResolver } from "./resolvers/SystemResolver";
 import { GlobalResolver } from "./resolvers/GlobalResolver";
+import { TargetResolver } from "./resolvers/TargetResolver";
+import {ViewerResolver} from "./resolvers/ViewerResolver";
+import {EventResolver} from "./resolvers/EventResolver";
+import {ViewerTargetTargetsResolver} from "./resolvers/ViewerTargetTargetsResolver";
 
 
 export function getMiddleware(
@@ -27,6 +31,10 @@ export function getMiddleware(
         BackendLogsResolver,
         SystemResolver,
         GlobalResolver,
+        TargetResolver,
+        ViewerResolver,
+        EventResolver,
+        ViewerTargetTargetsResolver
     ];
 
     const schema = buildSchemaSync({

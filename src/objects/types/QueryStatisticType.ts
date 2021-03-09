@@ -1,5 +1,5 @@
 import { ObjectType, Field } from "type-graphql";
-import { StatisticType } from ".";
+import { StatisticType } from "./index";
 
 @ObjectType()
 export class QueryStatisticType {
