@@ -1,6 +1,6 @@
 import { ArgsDictionary } from "type-graphql";
 import DataLoader from "dataloader";
-import { Context } from "../objects/Context";
+import { Context } from "../objects/types/Context";
 import { getHash } from "./getHash";
 import { getHashArgs } from "./getHashArgs";
 

@@ -2,87 +2,47 @@ import "reflect-metadata";
 import {
     ClassType, Field, ObjectType, Int,
 } from "type-graphql";
-import { genericEdge, Edgable } from "./Edge";
-import { ConnectionArgs } from "../args/ConnectionArgs";
+import { ConnectionArgs } from "../args";
+import { AbstractConnection, AbstractEdge } from "../interface";
 import { PageInfo } from "../types";
-import { HasNextPage } from "../../functions/HasNextPage";
-import { HasPreviousPage } from "../../functions/HasPreviousPage";
+import { genericEdge } from "./Edge";
 
-export interface Connectionable<T> {
-    edges: Edgable<T>[];
-    totalCount: number;
-}
-export interface ConnectionableConstructor<T, U extends ConnectionArgs> {
-    new(
-        edges: Edgable<T>[],
-        totalCount: number,
-        args: U,
-    ): Connectionable<T>;
-}
 
-export function genericConnection<T, U extends ConnectionArgs>(TItem: ClassType<T>): ConnectionableConstructor<T, U> {
+
+export function genericConnection<T>(TItem: ClassType<T>): ClassType<AbstractConnection<T>> {
 
     const Edge = genericEdge<T>(TItem);
     type Edge = InstanceType<typeof Edge>;
 
-    @ObjectType(`${TItem.name}Connection`)
-    class Connection implements Connectionable<T> {
+    @ObjectType(`I${TItem}Connection`, {
+        isAbstract: true,
+    })
+    class Connection extends AbstractConnection<T> {
 
         @Field(() => [Edge], {
-            nullable: false,
+            nullable: true,
             description: "Список элементов",
         })
-        public edges: Edgable<T>[];
+        public edges: Edge[];
 
         @Field(() => Int, {
-            nullable: false,
+            nullable: true,
             description: "количество элементов",
         })
         public totalCount: number;
 
         @Field(() => PageInfo, {
             description: "Данные о странице",
-            nullable: false,
+            nullable: true,
         })
         public pageInfo: PageInfo;
 
         constructor(
-            edges: Edgable<T>[],
+            edges: AbstractEdge<T>[],
             totalCount: number,
-            args: U,
+            args: ConnectionArgs,
         ) {
-
-            this.edges = edges;
-            this.totalCount = totalCount;
-            const pageInfo = this.getPageInfo(args);
-            this.pageInfo = pageInfo;
-
-        }
-
-        private getPageInfo(
-            args: U,
-        ): PageInfo {
-
-            let startCursor: string | null;
-            let endCursor: string | null;
-            if (this.edges.length === 0) {
-
-                startCursor = null;
-                endCursor = null;
-
-            } else {
-
-                startCursor = this.edges[0].cursor;
-                endCursor = this.edges[this.edges.length - 1].cursor;
-
-            }
-            return {
-                startCursor,
-                hasNextPage: HasNextPage(this.totalCount, args),
-                hasPreviousPage: HasPreviousPage(this.totalCount, args),
-                endCursor,
-            };
-
+            super(edges, totalCount, args);
         }
 
     }
