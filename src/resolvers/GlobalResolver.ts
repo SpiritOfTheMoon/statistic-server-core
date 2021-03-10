@@ -2,7 +2,7 @@ import "reflect-metadata";
 import {
     Resolver, Query, Arg, Ctx, Mutation, ID,
 } from "type-graphql";
-import { Context } from "../objects/Context";
+import { Context } from "../objects/types/Context";
 import { Node } from "../objects/interface";
 import { nodeQuery } from "../query/node/nodeQuery";
 

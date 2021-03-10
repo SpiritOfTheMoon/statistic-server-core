@@ -1,6 +1,6 @@
 {
   "name": "@umk-stat/statistic-server-core",
-  "version": "0.6.0",
+  "version": "0.1.0",
   "description": "",
   "main": "dist/index.js",
   "scripts": {

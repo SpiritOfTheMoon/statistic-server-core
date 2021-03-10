@@ -2,32 +2,24 @@ import "reflect-metadata";
 import {
     ClassType, ObjectType, Field,
 } from "type-graphql";
+import { AbstractEdge } from "../interface/abstract";
 
-export interface Edgable<T> {
-    cursor: string;
-    node: T;
-}
+export function genericEdge<T>(TItem: ClassType<T>): ClassType<AbstractEdge<T>> {
 
-export interface EdgableConstructor<T = any> {
-    new(
-        cursor: string,
-        node: T,
-    ): Edgable<T>;
-}
-export function genericEdge<T>(TItem: ClassType<T>): EdgableConstructor<T> {
-
-    @ObjectType(`${TItem.name}Edge`)
-    class Edge implements Edgable<T> {
+    @ObjectType(`I${TItem.name}Edge`, {
+        isAbstract: true,
+    })
+    class Edge extends AbstractEdge<T> {
 
         @Field(() => String, {
-            nullable: false,
+            nullable: true,
             description: "Значение курсора на соответствующий объект, указатель на объект",
 
         })
         public cursor: string;
 
         @Field(() => TItem, {
-            nullable: false,
+            nullable: true,
             description: "Некий объект, на который указывает курсор",
 
         })
@@ -37,7 +29,7 @@ export function genericEdge<T>(TItem: ClassType<T>): EdgableConstructor<T> {
             cursor: string,
             node: T,
         ) {
-
+            super();
             this.cursor = cursor;
             this.node = node;
 
